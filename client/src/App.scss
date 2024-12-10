@@ -1,0 +1,11 @@
+@use "./styles/variables" as *;
+@use "./styles/typography" as *;
+
+* {
+  font-family: 'Gothic';
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: $grey-background;
+}
