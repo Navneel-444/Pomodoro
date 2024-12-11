@@ -1,0 +1,35 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.base-timer {
+    position: relative;
+    margin-top: 150px;
+}
+
+.base-timer__circle {
+    fill: none;
+    stroke: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.base-timer__path-elapsed {
+    stroke-width: 1px;
+    stroke: $white;
+
+}
+
+.base-timer__path-remaining {
+    stroke-width: 5px;
+    transform-origin: center;
+    stroke: $blue;
+    transform: scaleX(-1) rotate(-90deg);
+    transition: 1s linear;
+}
+
+.base-timer__label {
+    position: absolute;
+    color: $white;
+    font-size: 48px;
+}
