@@ -1,63 +1,73 @@
 @use "../../styles/variables" as *;
 @use "../../styles/mixins" as *;
 
-.base-timer {
-    position: relative;
-    margin-top: 150px;
-}
+.timer {
+    &-clock {
+        position: relative;
+        margin-top: 150px;
 
-.base-timer__circle {
-    fill: none;
-    stroke: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        &__circle {
+            fill: none;
+            stroke: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.base-timer__path-elapsed {
-    stroke-width: 1px;
-    stroke: $white;
+        &__path {
+            &-elapsed {
+                stroke-width: 1px;
+                stroke: $white;
+            }
 
-}
+            &-remaining {
+                stroke-width: 5px;
+                transform-origin: center;
+                stroke: $blue;
+                transform: scaleX(-1) rotate(-90deg);
+                transition: 1s linear;
+            }
+        }
 
-.base-timer__path-remaining {
-    stroke-width: 5px;
-    transform-origin: center;
-    stroke: $blue;
-    transform: scaleX(-1) rotate(-90deg);
-    transition: 1s linear;
-}
-
-.base-timer__label {
-    position: absolute;
-    color: $white;
-    font-size: 48px;
-
-}
-
-.timer-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    background-color: $grey-accent;
-    width: 6rem;
-    border-radius: 8px;
-    margin: auto;
-    margin-top: 1.25rem;
-
-    &__buttons {
-        margin: 0.25rem 0.5rem;
-        background-color: $grey-accent;
-
-        &:hover {
-            background-color: blue;
+        &__label {
+            position: absolute;
+            color: $white;
+            font-size: 48px;
         }
     }
 
-
-    &__image {
+    &-controls {
         display: flex;
-        justify-content: center;
+        align-items: center;
+        justify-content: space-evenly;
         background-color: $grey-accent;
+        width: 6rem;
+        border-radius: 8px;
+        margin: auto;
+        margin-top: 1.25rem;
+
+        &__buttons {
+            margin: 0.25rem 0.5rem;
+            background-color: $grey-accent;
+        }
+
+        &__image {
+            display: flex;
+            justify-content: center;
+            background-color: $grey-accent;
+        }
+    }
+
+    &-tracker {
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+
+        &__completed {
+            width: 5px;
+            height: 5px;
+            margin: 0.25rem;
+            fill: $blue
+        }
     }
 }
