@@ -6,17 +6,24 @@ import skip from "../../assets/icons/Skip.svg";
 import play from "../../assets/icons/Play.svg";
 
 export default function Timer() {
+
     const [totalTime, setTotalTime] = useState(10);
     const radius = 92;
     const circumference = 2 * Math.PI * radius;
     const [progress, setProgress] = useState(circumference);
     const [active, setActive] = useState(false);
     const [tracker, setTracker] = useState(0);
+    const arrTracker = document.getElementsByClassName("timer-tracker__marker")
     // Clock 
     function formatTime(totalTime) {
         const minutes = Math.floor(totalTime / 60);
         const seconds = totalTime % 60;
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    }
+
+    function completeMarker(numCompleted) {
+        const completedMarker = arrTracker[numCompleted]
+        completedMarker.classList.add("timer-tracker__marker--completed")
     }
     useEffect(() => {
         if (active === true) {
@@ -24,29 +31,23 @@ export default function Timer() {
                 setTotalTime((prevTime) => {
                     if (prevTime === 0) {
                         clearInterval(timer);
-                        /* 
-                        issue this code updates tracker twice because it updates
-                        total time to 0  and returns 0 so it runs the if statement 
-                        twice
-                        */
-                        setTracker((prevNum) => {
-                            const newTracker = prevNum + 1;
-                            console.log(`tracker is ${newTracker}`);
-                            return newTracker;
-                        });
                         return 0;
                     }
                     const updatedTime = prevTime - 1;
                     setProgress((updatedTime / 10) * circumference);
-                    return updatedTime;
+                    return updatedTime
                 });
-            }, 1000);
+            }, 1000)
+            if (totalTime === 0) {
+                setTracker((prevNum) => prevNum + 1)
+                completeMarker(tracker)
+            }
+            return () => clearInterval(timer);
         }
-    }, [circumference, active]);
-    // Tracker
-    // Controls
+    }, [circumference, active, progress, totalTime]);
+    // Controls 
     const handlePlay = () => setActive((prev) => !prev);
-    const handleRestart = () => {
+    function handleRestart() {
         setTotalTime(10);
         setProgress(10 * circumference);
     }
@@ -62,17 +63,17 @@ export default function Timer() {
                         <circle className="timer-clock__path-remaining" cx="50%" cy="50%" r={radius} strokeDasharray={`${progress} ${circumference}`}></circle>
                     </svg>
                     <section className="timer-tracker">
-                        <svg className="timer-tracker__completed">
-                            <circle cx="50%" cy="50%" r="2.5"></circle>
+                        <svg className="timer-tracker__record">
+                            <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
-                        <svg className="timer-tracker__completed">
-                            <circle cx="50%" cy="50%" r="2.5"></circle>
+                        <svg className="timer-tracker__record">
+                            <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
-                        <svg className="timer-tracker__completed">
-                            <circle cx="50%" cy="50%" r="2.5"></circle>
+                        <svg className="timer-tracker__record">
+                            <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
-                        <svg className="timer-tracker__completed">
-                            <circle cx="50%" cy="50%" r="2.5"></circle>
+                        <svg className="timer-tracker__record">
+                            <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
                     </section>
                 </section>

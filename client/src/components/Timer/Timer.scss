@@ -60,14 +60,22 @@
 
     &-tracker {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-self: flex-end;
 
-        &__completed {
+        &__marker {
+            stroke: $blue;
+
+            &--completed {
+                fill: $blue
+            }
+        }
+
+        &__record {
             width: 5px;
             height: 5px;
             margin: 0.25rem;
-            fill: $blue
         }
+
     }
 }
