@@ -6,61 +6,66 @@ import skip from "../../assets/icons/Skip.svg";
 import play from "../../assets/icons/Play.svg";
 
 export default function Timer() {
-
-    const [totalTime, setTotalTime] = useState(10);
     const radius = 92;
     const circumference = 2 * Math.PI * radius;
-    const [progress, setProgress] = useState(circumference);
+    const trackerRecord = document.getElementsByClassName("timer-tracker__marker")
+    // States 
+    const [presetTime, setPresetTime] = useState(30);
+    const [elapsed, setElapsed] = useState(presetTime);
+    const [elapsedCircle, setElapsedCircle] = useState(circumference);
     const [active, setActive] = useState(false);
     const [tracker, setTracker] = useState(0);
-    const arrTracker = document.getElementsByClassName("timer-tracker__marker")
-    // Clock 
-    function formatTime(totalTime) {
-        const minutes = Math.floor(totalTime / 60);
-        const seconds = totalTime % 60;
+    // Clock
+    function formatTime(elapsed) {
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     }
-
+    // Tracker
     function completeMarker(numCompleted) {
-        const completedMarker = arrTracker[numCompleted]
+        const completedMarker = trackerRecord[numCompleted]
         completedMarker.classList.add("timer-tracker__marker--completed")
     }
+    // Controls
+    const handlePlay = () => setActive((prev) => !prev);
+
+    function handleRestart() {
+        setElapsed(presetTime);
+        setElapsedCircle(presetTime * circumference);
+    }
+
     useEffect(() => {
         if (active === true) {
             const timer = setInterval(() => {
-                setTotalTime((prevTime) => {
+                setElapsed((prevTime) => {
                     if (prevTime === 0) {
                         clearInterval(timer);
+                        setActive(false)
                         return 0;
                     }
                     const updatedTime = prevTime - 1;
-                    setProgress((updatedTime / 10) * circumference);
+                    setElapsedCircle((updatedTime / presetTime) * circumference);
                     return updatedTime
                 });
             }, 1000)
-            if (totalTime === 0) {
+            if (elapsed === 0) {
                 setTracker((prevNum) => prevNum + 1)
                 completeMarker(tracker)
             }
             return () => clearInterval(timer);
         }
-    }, [circumference, active, progress, totalTime]);
-    // Controls 
-    const handlePlay = () => setActive((prev) => !prev);
-    function handleRestart() {
-        setTotalTime(10);
-        setProgress(10 * circumference);
-    }
+    }, [circumference, active, elapsedCircle, elapsed]);
+
     return (
         <>
             <section className="timer-clock">
                 <section className="timer-clock__circle">
                     <span id="timer-clock-label" className="timer-clock__label">
-                        {formatTime(totalTime)}
+                        {formatTime(!elapsed ? presetTime : elapsed)}
                     </span>
                     <svg className="timer-clock__svg" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
                         <circle className="timer-clock__path-elapsed" cx="50%" cy="50%" r={radius}></circle>
-                        <circle className="timer-clock__path-remaining" cx="50%" cy="50%" r={radius} strokeDasharray={`${progress} ${circumference}`}></circle>
+                        <circle className="timer-clock__path-remaining" cx="50%" cy="50%" r={radius} strokeDasharray={`${elapsedCircle} ${circumference}`}></circle>
                     </svg>
                     <section className="timer-tracker">
                         <svg className="timer-tracker__record">
