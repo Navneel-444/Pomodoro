@@ -9,8 +9,11 @@ export default function Timer() {
     const radius = 92;
     const circumference = 2 * Math.PI * radius;
     const trackerRecord = document.getElementsByClassName("timer-tracker__marker")
+
+
     // States 
-    const [presetTime, setPresetTime] = useState(30);
+    const [presetTime, setPresetTime] = useState(5);
+    // const [presetRest, setPresetRest] = useState(5);
     const [elapsed, setElapsed] = useState(presetTime);
     const [elapsedCircle, setElapsedCircle] = useState(circumference);
     const [active, setActive] = useState(false);
@@ -22,12 +25,24 @@ export default function Timer() {
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     }
     // Tracker
+    function removeMarker() {
+        document.querySelectorAll('.timer-tracker__marker--completed').forEach(element => {
+            element.classList.remove('timer-tracker__marker--completed');
+        });
+    }
+
     function completeMarker(numCompleted) {
-        const completedMarker = trackerRecord[numCompleted]
-        completedMarker.classList.add("timer-tracker__marker--completed")
+        if (numCompleted === 4) {
+            removeMarker();
+        } else {
+            const completedMarker = trackerRecord[numCompleted]
+            completedMarker.classList.add("timer-tracker__marker--completed")
+        }
     }
     // Controls
-    const handlePlay = () => setActive((prev) => !prev);
+    function handlePlay() {
+        setActive((prev) => !prev);
+    }
 
     function handleRestart() {
         setElapsed(presetTime);
@@ -61,7 +76,7 @@ export default function Timer() {
             <section className="timer-clock">
                 <section className="timer-clock__circle">
                     <span id="timer-clock-label" className="timer-clock__label">
-                        {formatTime(!elapsed ? presetTime : elapsed)}
+                        {formatTime(elapsed)}
                     </span>
                     <svg className="timer-clock__svg" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
                         <circle className="timer-clock__path-elapsed" cx="50%" cy="50%" r={radius}></circle>
