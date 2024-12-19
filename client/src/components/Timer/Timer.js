@@ -34,6 +34,7 @@ export default function Timer() {
     function completeMarker(numCompleted) {
         if (numCompleted === 4) {
             removeMarker();
+            setTracker(0)
         } else {
             const completedMarker = trackerRecord[numCompleted]
             completedMarker.classList.add("timer-tracker__marker--completed")
@@ -78,21 +79,21 @@ export default function Timer() {
                     <span id="timer-clock-label" className="timer-clock__label">
                         {formatTime(elapsed)}
                     </span>
-                    <svg className="timer-clock__svg" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="timer-clock__svg" xmlns="http://www.w3.org/2000/svg">
                         <circle className="timer-clock__path-elapsed" cx="50%" cy="50%" r={radius}></circle>
                         <circle className="timer-clock__path-remaining" cx="50%" cy="50%" r={radius} strokeDasharray={`${elapsedCircle} ${circumference}`}></circle>
                     </svg>
                     <section className="timer-tracker">
-                        <svg className="timer-tracker__record">
+                        <svg className="timer-tracker__record" >
                             <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
-                        <svg className="timer-tracker__record">
+                        <svg className="timer-tracker__record" >
                             <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
-                        <svg className="timer-tracker__record">
+                        <svg className="timer-tracker__record" >
                             <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
-                        <svg className="timer-tracker__record">
+                        <svg className="timer-tracker__record" >
                             <circle className="timer-tracker__marker" cx="50%" cy="50%" r="2.5"></circle>
                         </svg>
                     </section>
