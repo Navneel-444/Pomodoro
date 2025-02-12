@@ -1,0 +1,89 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.timer {
+    &-clock {
+        position: relative;
+        margin-top: 150px;
+
+        &__circle {
+            fill: none;
+            stroke: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__path {
+            &-elapsed {
+                stroke-width: 1px;
+                stroke: $white;
+            }
+
+            &-remaining {
+                stroke-width: 5px;
+                transform-origin: center;
+                transform: scaleX(-1) rotate(-90deg);
+                transition: 1s linear;
+                filter: blur(2.5px);
+            }
+        }
+
+        &__label {
+            position: absolute;
+            color: $white;
+            font-size: 48px;
+        }
+
+        &__svg {
+            height: 200px;
+            width: 200px;
+        }
+    }
+
+    &-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background-color: $grey-accent;
+        width: 6rem;
+        border-radius: 8px;
+        margin: auto;
+        margin-top: 1.25rem;
+
+        &__buttons {
+            margin: 0.25rem 0.5rem;
+            background-color: $grey-accent;
+        }
+
+        &__image {
+            display: flex;
+            justify-content: center;
+            background-color: $grey-accent;
+        }
+    }
+
+    &-tracker {
+        display: flex;
+        flex-direction: column-reverse;
+        align-self: flex-end;
+
+        &__marker {
+            stroke: $blue;
+            border-radius: 100;
+            display: none;
+            padding: 0.25rem;
+
+            &--completed {
+                display: block;
+                fill: $blue
+            }
+        }
+
+        &__record {
+            width: 6px;
+            height: 6px;
+            margin: 0.25rem;
+        }
+    }
+}
