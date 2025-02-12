@@ -23,9 +23,9 @@
             &-remaining {
                 stroke-width: 5px;
                 transform-origin: center;
-                stroke: $blue;
                 transform: scaleX(-1) rotate(-90deg);
                 transition: 1s linear;
+                filter: blur(2.5px);
             }
         }
 
@@ -36,8 +36,8 @@
         }
 
         &__svg {
-            height: 190px;
-            width: 190px;
+            height: 200px;
+            width: 200px;
         }
     }
 
@@ -71,10 +71,11 @@
         &__marker {
             stroke: $blue;
             border-radius: 100;
-
+            display: none;
             padding: 0.25rem;
 
             &--completed {
+                display: block;
                 fill: $blue
             }
         }
@@ -84,6 +85,5 @@
             height: 6px;
             margin: 0.25rem;
         }
-
     }
 }
