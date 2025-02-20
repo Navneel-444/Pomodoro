@@ -13,7 +13,7 @@ exports.up = function (knex) {
             table.timestamp('created_at').defaultTo(knex.fn.now());
             table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         }),
-        knex.schema.createTable('pomodoro_sessions', (table) => {
+        knex.schema.createTable('sessions', (table) => {
             table.increments('id').primary();
             table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
             table.integer('task_id').unsigned().references('id').inTable('tasks').onDelete('SET NULL');
@@ -32,7 +32,7 @@ exports.up = function (knex) {
             table.enu('status', ['pending', 'in-progress', 'completed']).defaultTo('pending');
             table.enu('priority', ['low', 'medium', 'high']).defaultTo('medium');
             table.integer('estimated_time').defaultTo(0);
-            table.integer('pomodoro_sessions').defaultTo(0);
+            table.integer('sessions').defaultTo(0);
             table.timestamp('created_at').defaultTo(knex.fn.now());
             table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         })
@@ -44,7 +44,7 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
     return Promise.all([
-        knex.schema.dropTableIfExists('pomodoro_sessions'),
+        knex.schema.dropTableIfExists('sessions'),
         knex.schema.dropTableIfExists('tasks'),
         knex.schema.dropTableIfExists('users')
     ]);
