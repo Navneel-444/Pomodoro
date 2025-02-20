@@ -16,7 +16,7 @@ exports.up = function (knex) {
         knex.schema.createTable('pomodoro_sessions', (table) => {
             table.increments('id').primary();
             table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
-            table.integer('task_id').unsigned().references('id').inTable('tasks').onDelete('CASCADE');
+            table.integer('task_id').unsigned().references('id').inTable('tasks').onDelete('SET NULL');
             table.timestamp('start_time').defaultTo(knex.fn.now());
             table.timestamp('end_time').nullable();
             table.integer('duration').nullable();
