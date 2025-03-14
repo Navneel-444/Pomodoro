@@ -7,6 +7,11 @@ module.exports = [
         name: "Alice",
         created_at: "2024-12-24 20:19:25",
         updated_at: "2024-12-24 20:19:25",
+        completed_sessions: 120,
+        streak: 5,
+        average_session_time: 25,
+        tasks_created: 50,
+        tasks_completed: 45
     },
     {
         id: 2,
@@ -16,6 +21,11 @@ module.exports = [
         name: "Bob",
         created_at: "2025-01-04 07:43:43",
         updated_at: "2025-01-04 07:43:43",
+        completed_sessions: 200,
+        streak: 10,
+        average_session_time: 30,
+        tasks_created: 80,
+        tasks_completed: 75
     },
     {
         id: 3,
@@ -25,6 +35,11 @@ module.exports = [
         name: "Charlie",
         created_at: "2025-02-01 02:41:26",
         updated_at: "2025-02-01 02:41:26",
+        completed_sessions: 75,
+        streak: 3,
+        average_session_time: 22,
+        tasks_created: 40,
+        tasks_completed: 35
     },
     {
         id: 4,
@@ -34,6 +49,11 @@ module.exports = [
         name: "David",
         created_at: "2025-02-16 10:44:16",
         updated_at: "2025-02-16 10:44:16",
+        completed_sessions: 300,
+        streak: 15,
+        average_session_time: 28,
+        tasks_created: 120,
+        tasks_completed: 110
     },
     {
         id: 5,
@@ -43,5 +63,10 @@ module.exports = [
         name: "Eva",
         created_at: "2024-11-30 02:58:18",
         updated_at: "2024-11-30 02:58:18",
-    },
-];
+        completed_sessions: 50,
+        streak: 2,
+        average_session_time: 24,
+        tasks_created: 30,
+        tasks_completed: 25
+    }
+]

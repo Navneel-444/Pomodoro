@@ -10,6 +10,11 @@ exports.up = function (knex) {
             table.string('oauth_provider').notNullable();
             table.string('oauth_id').notNullable();
             table.string('name').notNullable();
+            table.integer('completed_sessions').defaultTo(0);
+            table.integer('streak').defaultTo(0);
+            table.decimal('average_session_time', 7, 2).defaultTo(0);
+            table.integer('tasks_created').defaultTo(0);
+            table.integer('tasks_completed').defaultTo(0);
             table.timestamp('created_at').defaultTo(knex.fn.now());
             table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         }),
