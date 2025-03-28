@@ -1,8 +1,15 @@
+require("dotenv").config();
+const PORT = process.env.PORT || 5050;
 const express = require('express');
 const app = express();
-require("dotenv").config();
 
-const PORT = process.env.PORT || 5050;
+const userRoutes = require('./routes/user-routes')
+const taskRoutes = require('./routes/task-routes')
+const sessionRoutes = require('./routes/session-routes')
+
+app.use('/users', userRoutes);
+app.use('/tasks', taskRoutes);
+app.use('/sessions', sessionRoutes);
 
 // basic home route
 app.get('/', (req, res) => {

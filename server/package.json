@@ -7,14 +7,17 @@
     "migrate": "knex migrate:latest",
     "migrate:down": "knex migrate:down",
     "migrate:rollback": "knex migrate:rollback",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "knex": "^3.1.0",
-    "mysql2": "^3.12.0"
+    "mysql2": "^3.12.0",
+    "nodemon": "^3.1.9"
   }
 }
