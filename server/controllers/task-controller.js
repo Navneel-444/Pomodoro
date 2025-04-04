@@ -27,7 +27,6 @@ const getAllTasksByUserId = async (req, res) => {
     }
 };
 
-// Get a specific task by task_id for a specific user
 const getTaskById = async (req, res) => {
     const { user_id, task_id } = req.params;
     try {
@@ -49,14 +48,40 @@ const getTaskById = async (req, res) => {
             }
         }
     } catch (err) {
-        console.error(err);
         return res.status(500).json(
             `Internal server error: Failed to retrieve task with ID ${task_id} for user with ID ${user_id}. Please try again later.`
         );
     }
 };
 
+const storeTask = async (req, res) => {
+    const { task } = req.body;
+    const { user_id } = req.params;
+    if (!user_id) {
+        return res.status(400).json({
+            error: 'Missing user ID in request parameters.'
+        });
+    }
+    if (!task || !task.title) {
+        return res.status(400).json({
+            error: 'Task is missing or incomplete. Please provide a valid task with a title.'
+        });
+    }
+    try {
+        const newTask = { ...task, user_id };
+        await knex('tasks').insert(newTask);
+        return res.status(201).json({
+            message: 'Task successfully created.'
+        });
+    } catch (err) {
+        return res.status(500).json({
+            error: `Internal server error: Failed to post task for user with ID ${user_id}.`
+        });
+    }
+};
+
 module.exports = {
     getAllTasksByUserId,
-    getTaskById
+    getTaskById,
+    storeTask
 };

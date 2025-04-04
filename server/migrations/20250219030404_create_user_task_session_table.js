@@ -31,9 +31,9 @@ exports.up = function (knex) {
         }),
         knex.schema.createTable('tasks', (table) => {
             table.increments('id').primary();
-            table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
+            table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE').notNullable();
             table.varchar('title').notNullable();
-            table.string('description').notNullable();
+            table.string('description').nullable();
             table.enu('status', ['pending', 'in-progress', 'completed']).defaultTo('pending');
             table.enu('priority', ['low', 'medium', 'high']).defaultTo('medium');
             table.integer('estimated_time').defaultTo(0);
