@@ -68,7 +68,8 @@ const storeTask = async (req, res) => {
         });
     }
     try {
-        const newTask = { ...task, user_id };
+        const newTask = { task, user_id };
+        console.log(newTask)
         await knex('tasks').insert(newTask);
         return res.status(201).json({
             message: 'Task successfully created.'
@@ -80,8 +81,44 @@ const storeTask = async (req, res) => {
     }
 };
 
+// const modifyTask = async (req, res) => {
+//     const { user_ID, task_Id } = req.params
+//     const { task } = req.body
+//     try {
+//         const modifyTask = await knex('tasks').update({ 'title': task }).where({ id:  })
+//     } catch (err) {
+//         console.error(err)
+//         return res.status(500).json({
+//             error: `Internal server error: Failed to post task for user with ID ${user_ID}.`
+//         });
+//     }
+// };
+
+const deleteTask = async (req, res) => {
+    const taskID = req.params.task_id;
+    try {
+        const deletedTask = await knex('tasks')
+            .where({ id: taskID })
+            .delete();
+        if (deletedTask === 0) {
+            return res.status(404).json({
+                message: `task with ID ${taskID} not found`
+            });
+        }
+        return res.status(200).json({
+            message: `Task with ID ${taskID} successfully deleted`
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Unable to delete task',
+            error: error.message || error
+        });
+    }
+}
 module.exports = {
     getAllTasksByUserId,
     getTaskById,
-    storeTask
+    storeTask,
+    // modifyTask,
+    deleteTask,
 };

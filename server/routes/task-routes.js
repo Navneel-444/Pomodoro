@@ -5,8 +5,8 @@ router.route('/:user_id')
     .get(taskController.getAllTasksByUserId)
     .post(taskController.storeTask)
 
-// Route to get a task by its ID (if needed)
 router.route('/:user_id/:task_id')
-    .get(taskController.getTaskById);
-
+    .get(taskController.getTaskById)
+    // .patch(taskController.modifyTask)
+    .delete(taskController.deleteTask)
 module.exports = router;
