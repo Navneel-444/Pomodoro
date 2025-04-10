@@ -1,18 +1,18 @@
 const knex = require('knex')(require('../knexfile'));
 
 const getAllTasksByUserId = async (req, res) => {
-    const { user_id } = req.params;
+    const { userId } = req.params;
     try {
-        const user = await knex('users').where({ id: user_id }).first();
+        const user = await knex('users').where({ id: userId }).first();
         if (!user) {
             return res.status(404).json(
-                `User with ID ${user_id} not found. Please check the user ID and try again.`
+                `User with ID ${userId} not found. Please check the user ID and try again.`
             );
         } else {
-            const tasks = await knex('tasks').where({ user_id });
+            const tasks = await knex('tasks').where({ userId });
             if (tasks.length === 0) {
                 return res.status(404).json(
-                    `No tasks found for user with ID ${user_id}.`
+                    `No tasks found for user with ID ${userId}.`
                 );
             } else {
                 return res.status(200).json(tasks);
@@ -22,24 +22,24 @@ const getAllTasksByUserId = async (req, res) => {
         console.error(err);
         return res.status(500).json({
             error: true,
-            message: `Internal server error: Failed to retrieve tasks for user with ID ${user_id}. Please try again later.`
+            message: `Internal server error: Failed to retrieve tasks for user with ID ${userId}. Please try again later.`
         });
     }
 };
 
 const getTaskById = async (req, res) => {
-    const { user_id, task_id } = req.params;
+    const { userId, taskId } = req.params;
     try {
-        const user = await knex('users').where({ id: user_id }).first();
+        const user = await knex('users').where({ id: userId }).first();
         if (!user) {
             return res.status(404).json(
-                `User with ID ${user_id} not found. Please check the user ID and try again.`
+                `User with ID ${userId} not found. Please check the user ID and try again.`
             );
         } else {
-            const task = await knex('tasks').where({ user_id, id: task_id }).first();
+            const task = await knex('tasks').where({ userId, id: taskId }).first();
             if (!task) {
                 return res.status(404).json(
-                    `Task with ID ${task_id} not found for user with ID ${user_id}.`
+                    `Task with ID ${taskId} not found for user with ID ${userId}.`
                 );
             } else {
                 return res.status(200).json(
@@ -49,15 +49,15 @@ const getTaskById = async (req, res) => {
         }
     } catch (err) {
         return res.status(500).json(
-            `Internal server error: Failed to retrieve task with ID ${task_id} for user with ID ${user_id}. Please try again later.`
+            `Internal server error: Failed to retrieve task with ID ${taskId} for user with ID ${userId}. Please try again later.`
         );
     }
 };
 
 const storeTask = async (req, res) => {
     const { task } = req.body;
-    const { user_id } = req.params;
-    if (!user_id) {
+    const { userId } = req.params;
+    if (!userId) {
         return res.status(400).json({
             error: 'Missing user ID in request parameters.'
         });
@@ -68,7 +68,7 @@ const storeTask = async (req, res) => {
         });
     }
     try {
-        const newTask = { task, user_id };
+        const newTask = { task, userId };
         console.log(newTask)
         await knex('tasks').insert(newTask);
         return res.status(201).json({
@@ -76,26 +76,43 @@ const storeTask = async (req, res) => {
         });
     } catch (err) {
         return res.status(500).json({
-            error: `Internal server error: Failed to post task for user with ID ${user_id}.`
+            error: `Internal server error: Failed to post task for user with ID ${userId}.`
         });
     }
 };
 
-// const modifyTask = async (req, res) => {
-//     const { user_ID, task_Id } = req.params
-//     const { task } = req.body
-//     try {
-//         const modifyTask = await knex('tasks').update({ 'title': task }).where({ id:  })
-//     } catch (err) {
-//         console.error(err)
-//         return res.status(500).json({
-//             error: `Internal server error: Failed to post task for user with ID ${user_ID}.`
-//         });
-//     }
-// };
+const modifyTask = async (req, res) => {
+    const { userId, taskId } = req.params;
+    const updates = req.body;
+    try {
+        const columns = await knex('tasks').columnInfo();
+        const validColumns = Object.keys(columns);
+        const invalidColumns = Object.keys(updates).filter(
+            (key) => !validColumns.includes(key)
+        );
+        if (invalidColumns.length > 0) {
+            return res.status(400).json({
+                error: `Invalid columns in the request: ${invalidColumns.join(', ')}`,
+            });
+        }
+        const modifiedTask = await knex('tasks')
+            .update(updates)
+            .where({ id: taskId });
+
+        return res.status(200).json({
+            message: `Task ${taskId} updated successfully.`,
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            error: `Internal server error: Failed to update task with ID ${taskId}.`,
+        });
+    }
+};
+
 
 const deleteTask = async (req, res) => {
-    const taskID = req.params.task_id;
+    const taskID = req.params.taskId;
     try {
         const deletedTask = await knex('tasks')
             .where({ id: taskID })
@@ -119,6 +136,6 @@ module.exports = {
     getAllTasksByUserId,
     getTaskById,
     storeTask,
-    // modifyTask,
+    modifyTask,
     deleteTask,
 };
